@@ -1,0 +1,12 @@
+Baseline recorded before clearing the old generated log (28 records):
+
+Total log records analyzed: 28
+Records with missing required fields: 20
+Records with missing enrichment (context): 20
+Unique correlation IDs found: 0
+Potential PII leaks detected: 0
+Estimated Score: 30/100
+
+This is the captured validator summary from the pre-CP1 log file. The old
+data/logs.jsonl is excluded from version control and was cleared before the final
+CP1/CP2 workload was generated.

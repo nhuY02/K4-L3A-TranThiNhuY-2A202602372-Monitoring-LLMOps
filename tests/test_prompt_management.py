@@ -134,3 +134,45 @@ def test_sdk_fallback_is_not_reported_as_managed_prompt() -> None:
     assert resolved.version == "local-v1"
     assert resolved.fetch_error == "LangfuseFallback"
     assert resolved.managed_prompt is None
+
+
+def test_prompt_label_switching_and_rollback(monkeypatch) -> None:
+    """Kiểm tra REQ-FR-05: Chuyển đổi nhãn phiên bản prompt và kịch bản Rollback."""
+    from app.prompt_management import resolve_prompt
+
+    class DynamicVersionPromptClient:
+        def __init__(self) -> None:
+            self.labels_to_version = {"baseline": 1, "candidate": 2, "production": 1}
+
+        def get_prompt(self, name: str, **kwargs):
+            label = kwargs.get("label", "production")
+            ver = self.labels_to_version[label]
+            prompt = FakeManagedPrompt()
+            prompt.version = ver
+            return prompt
+
+    client = DynamicVersionPromptClient()
+
+    # 1. Baseline -> Version 1
+    monkeypatch.setenv("LANGFUSE_PROMPT_LABEL", "baseline")
+    res_base = resolve_prompt(client, feature="qa", docs=["doc1"], message="msg", enabled=True)
+    assert res_base.version == "1"
+    assert res_base.label == "baseline"
+
+    # 2. Candidate -> Version 2
+    monkeypatch.setenv("LANGFUSE_PROMPT_LABEL", "candidate")
+    res_cand = resolve_prompt(client, feature="qa", docs=["doc1"], message="msg", enabled=True)
+    assert res_cand.version == "2"
+    assert res_cand.label == "candidate"
+
+    # 3. Promote production to Version 2
+    client.labels_to_version["production"] = 2
+    monkeypatch.setenv("LANGFUSE_PROMPT_LABEL", "production")
+    res_prod_v2 = resolve_prompt(client, feature="qa", docs=["doc1"], message="msg", enabled=True)
+    assert res_prod_v2.version == "2"
+
+    # 4. Rollback production back to Version 1
+    client.labels_to_version["production"] = 1
+    res_prod_v1 = resolve_prompt(client, feature="qa", docs=["doc1"], message="msg", enabled=True)
+    assert res_prod_v1.version == "1"
+    assert res_prod_v1.source == "langfuse"

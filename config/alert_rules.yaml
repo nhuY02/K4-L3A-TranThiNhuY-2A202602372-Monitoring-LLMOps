@@ -1,25 +1,28 @@
 alerts:
-  - name: TODO_alert_1
-    severity: TODO
-    condition: TODO
-    duration: TODO
+  - name: Elevated user-facing latency
+    severity: warning
+    condition: 'response_sent latency_ms P95 > 3000 ms over 5 minutes'
+    duration: 5m
     type: symptom-based
     channel: slack
-    owner: TODO
+    destination: "#llmops-alerts"
+    owner: LLM Platform On-call
     runbook: docs/alerts.md#alert-1
-  - name: TODO_alert_2
-    severity: TODO
-    condition: TODO
-    duration: TODO
+  - name: Elevated request error rate
+    severity: critical
+    condition: 'request_failed / request_received > 2% over 5 minutes'
+    duration: 5m
     type: symptom-based
     channel: slack
-    owner: TODO
+    destination: "#llmops-alerts"
+    owner: API On-call
     runbook: docs/alerts.md#alert-2
-  - name: TODO_alert_3
-    severity: TODO
-    condition: TODO
-    duration: TODO
+  - name: Low retrieval success rate
+    severity: warning
+    condition: 'tool_success true / non-null tool_success < 90% over 10 minutes'
+    duration: 10m
     type: symptom-based
     channel: slack
-    owner: TODO
+    destination: "#llmops-alerts"
+    owner: Retrieval On-call
     runbook: docs/alerts.md#alert-3

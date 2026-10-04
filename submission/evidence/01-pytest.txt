@@ -1,0 +1,12 @@
+﻿Command: python -m pytest -q
+Run at: 2026-10-04T15:15:14+07:00 (Python 3.11.9)
+
+.........................................................                [100%]
+============================== warnings summary ===============================
+.venv\Lib\site-packages\starlette\testclient.py:51
+  D:\K4-L3A-TranThiNhuY-2A202602372-Monitoring-LLMOps\.venv\Lib\site-packages\starlette\testclient.py:51: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+57 passed, 1 warning in 3.40s
+

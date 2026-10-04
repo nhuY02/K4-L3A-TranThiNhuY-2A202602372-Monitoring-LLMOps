@@ -23,6 +23,65 @@ class AgentResult:
     quality_score: float
 
 
+@observe(
+    name="retrieval",
+    as_type="retriever",
+    capture_input=False,
+    capture_output=False,
+)
+def _traced_retrieve(message: str) -> list[str]:
+    docs = retrieve(message)
+    # Store only a redacted query preview and a count; never capture raw user text
+    # or retrieved documents in the trace.
+    get_langfuse_client().update_current_span(
+        input={"query_preview": summarize_text(message)},
+        output={"document_count": len(docs)},
+        metadata={"document_count": len(docs)},
+    )
+    return docs
+
+
+@observe(
+    name="llm-generation",
+    as_type="generation",
+    capture_input=False,
+    capture_output=False,
+)
+def _traced_generate(
+    llm: FakeLLM,
+    prompt_text: str,
+    *,
+    managed_prompt,
+    prompt_name: str,
+    prompt_label: str,
+    prompt_version: str,
+):
+    response = llm.generate(prompt_text)
+    input_cost = (response.usage.input_tokens / 1_000_000) * 3
+    output_cost = (response.usage.output_tokens / 1_000_000) * 15
+    generation_fields = {
+        "model": response.model,
+        "usage_details": {
+            "input": response.usage.input_tokens,
+            "output": response.usage.output_tokens,
+        },
+        "cost_details": {"input": input_cost, "output": output_cost},
+        "metadata": {
+            "prompt_name": prompt_name,
+            "prompt_label": prompt_label,
+            "prompt_version": prompt_version,
+            "input_tokens": response.usage.input_tokens,
+            "output_tokens": response.usage.output_tokens,
+            "cost_usd": round(input_cost + output_cost, 6),
+            "ttft_ms": response.ttft_ms,
+        },
+    }
+    if managed_prompt is not None:
+        generation_fields["prompt"] = managed_prompt
+    get_langfuse_client().update_current_generation(**generation_fields)
+    return response
+
+
 class LabAgent:
     def __init__(self, model: str = "claude-sonnet-4-5") -> None:
         self.model = model
@@ -51,7 +110,7 @@ class LabAgent:
             },
         ):
             started = time.perf_counter()
-            docs = retrieve(message)
+            docs = _traced_retrieve(message)
             prompt = resolve_prompt(
                 langfuse_client,
                 feature=feature,
@@ -71,10 +130,14 @@ class LabAgent:
                 },
                 version=prompt.version,
             )
-            # TODO (CP2): instrument retrieve() and FakeLLM.generate() as child
-            # observations. The nested generation must receive prompt, usage and cost.
-            with propagate_attributes(prompt=prompt.managed_prompt):
-                response = self.llm.generate(prompt.text)
+            response = _traced_generate(
+                self.llm,
+                prompt.text,
+                managed_prompt=prompt.managed_prompt,
+                prompt_name=prompt.name,
+                prompt_label=prompt.label,
+                prompt_version=prompt.version,
+            )
             quality_score = self._heuristic_quality(message, response.text, docs)
             latency_ms = int((time.perf_counter() - started) * 1000)
             cost_usd = self._estimate_cost(response.usage.input_tokens, response.usage.output_tokens)

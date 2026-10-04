@@ -1,0 +1,5 @@
+﻿Command: python scripts/validate_dashboard.py
+Run at: 2026-10-04T15:06:40+07:00
+
+Hß╗óP Lß╗å: 6/6 panel c├│ trong dashboard contract.
+

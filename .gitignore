@@ -1,11 +1,31 @@
+# Python virtual environments
 .venv/
+.venv312/
+
+# Python cache & bytecode
 __pycache__/
-*.pyc
+*.py[cod]
+.pytest_cache/
+
+# OS metadata
 .DS_Store
+Thumbs.db
+
+# Runtime log outputs (chua log runtime)
 data/logs.jsonl
 data/audit.jsonl
+
+# REQ-NFR-02: Secret & Environment Hygiene
 .env
-# Lab Coach gửi riêng khi bắt đầu CP3; tuyệt đối không commit/push.
+.env.*
+!.env.example
+*.pem
+*.key
+
+# CP3 Challenge Config (tuyet doi khong commit/push)
 config/challenge.json
-.pytest_cache/
+
+# IDE config
 .antigravity/
+.vscode/
+.idea/

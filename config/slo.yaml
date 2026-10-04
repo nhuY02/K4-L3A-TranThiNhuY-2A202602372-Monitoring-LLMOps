@@ -7,7 +7,15 @@ primary_slo:
     total_event: 'event == "request_received"'
   target_percent: 99.5
   error_budget_percent: 0.5
-  note: Học viên phải giải thích hoặc điều chỉnh ngưỡng bằng baseline của mình.
+  measurement: 'good requests / all received requests over the rolling 28-day window'
+  error_budget:
+    calculation: '(1 - target_percent / 100) * eligible_request_count'
+    example_10000_requests: 50
+  note: >-
+    A request is good only when it returns response_sent and latency_ms is at most
+    3000. At a 99.5% target, 0.5% of eligible requests may be bad in each rolling
+    28-day window; for 10,000 requests the budget is 50 bad requests. Track actual
+    baseline and remaining budget from request_received and response_sent events.
 guardrails:
   error_rate_pct_max: 2
   daily_cost_usd_max: 2.5
