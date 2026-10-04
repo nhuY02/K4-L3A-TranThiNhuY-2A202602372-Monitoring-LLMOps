@@ -163,12 +163,13 @@ def capture_local(page):
     # 04 structured log
     print("[04] structured log...")
     target = [l for l in log_lines if l.get("correlation_id")=="req-ba5e0011"] or log_lines[:3]
+    correlation_count = len({l.get("correlation_id") for l in log_lines if l.get("correlation_id")})
     html = make_log_html(
         "Evidence 04 \u2014 Structured Log (data/logs.jsonl)",
         "Request req-ba5e0011 \u00b7 feature=qa \u00b7 model=claude-sonnet-4-5 \u00b7 env=dev",
         target,
         ["correlation_id","event","ts","feature","model","env","latency_ms","ttft_ms"],
-        "validate_logs.py \u2192 100/100 \u00b7 59 records \u00b7 26 correlation IDs \u00b7 0 PII leak",
+        f"data/logs.jsonl \u00b7 {len(log_lines)} records \u00b7 {correlation_count} correlation IDs",
     )
     page.set_content(html, wait_until="load"); time.sleep(0.6)
     page.screenshot(path=str(EVIDENCE_DIR/"04-structured-log.png"), full_page=True)

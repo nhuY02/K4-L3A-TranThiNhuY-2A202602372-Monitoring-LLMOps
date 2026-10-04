@@ -7,7 +7,7 @@
 - **Lớp:** K4-L3A
 - **Repository:** `K4-L3-DAY13-TranThiNhuY-2A202602372-Monitoring-LLMOps`
 - **Repository URL:** https://github.com/nhuY02/K4-L3-DAY13-TranThiNhuY-2A202602372-Monitoring-LLMOps
-- **Commit SHA cuối:** _điền SHA hex sau khi commit và push (không điền URL vào trường này)_
+- **Commit SHA cuối:** _điền SHA hex của commit nộp bài sau khi tự commit (không điền URL vào trường này)_
 - **Challenge ID:** `day13-k4-l3a-monitoring-llmops-v1` (cohort K4; `config/challenge.json` lấy từ release "Challenge File" của repo đề, không sửa, không commit).
 - **Project Langfuse cá nhân:** `day13-k4-l3a-2A202602372` (region US, `us.cloud.langfuse.com`).
 
@@ -18,20 +18,20 @@
 | 01 | Pytest cuối | [01-pytest.txt](evidence/01-pytest.txt) | 57 passed | output lệnh |
 | 02 | Log validator cuối | [02-log-validator.txt](evidence/02-log-validator.txt) | 100/100 | output lệnh |
 | 03 | Dashboard validator | [03-dashboard-validator.txt](evidence/03-dashboard-validator.txt) | 6/6 panel | output lệnh |
-| 04 | Structured log | [04-structured-log.md](evidence/04-structured-log.md) | `req-ba5e0011` | trích xuất log |
-| 05 | PII redaction | [05-pii-redaction.md](evidence/05-pii-redaction.md) | `req-a1b2c3d4` | trích xuất log |
-| 06 | Trace list (21 traces) | [06-trace-list.md](evidence/06-trace-list.md) | 21 trace ID | export Langfuse API |
-| 07 | Trace waterfall | [07-trace-waterfall.md](evidence/07-trace-waterfall.md) | `2c423dcf…` | export Langfuse API |
-| 08 | Trace metadata | [08-trace-metadata.md](evidence/08-trace-metadata.md) | `2c423dcf…` | export Langfuse API |
-| 09 | Prompt versions | [09-prompt-versions.md](evidence/09-prompt-versions.md) | `day13-chat` v1/v2 | export Langfuse API |
-| 10 | Prompt promote/rollback | [10-prompt-rollback.md](evidence/10-prompt-rollback.md) | 4 trace ID | export Langfuse API |
+| 04 | Structured log | ![Structured log](evidence/04-structured-log.png) · [dữ liệu](evidence/04-structured-log.md) | `req-ba5e0011` | ảnh từ `data/logs.jsonl` |
+| 05 | PII redaction | ![PII redaction](evidence/05-pii-redaction.png) · [dữ liệu](evidence/05-pii-redaction.md) | `req-a1b2c3d4` | ảnh test PII và log đã scrub |
+| 06 | Trace list (21 traces) | ![Langfuse trace list](evidence/06-trace-list.png) · [dữ liệu](evidence/06-trace-list.md) | 21 trace ID | ảnh UI Langfuse + export đối chiếu |
+| 07 | Trace waterfall | ![Langfuse trace waterfall](evidence/07-trace-waterfall.png) · [dữ liệu](evidence/07-trace-waterfall.md) | `2c423dcf…` | ảnh UI Langfuse + export đối chiếu |
+| 08 | Trace metadata | ![Langfuse trace metadata](evidence/08-trace-metadata.png) · [dữ liệu](evidence/08-trace-metadata.md) | `2c423dcf…` | ảnh UI Langfuse + export đối chiếu |
+| 09 | Prompt versions | ![Langfuse prompt version 2](evidence/09-prompt-versions.png) · [dữ liệu](evidence/09-prompt-versions.md) | `day13-chat` v1/v2 | ảnh UI Langfuse + export đối chiếu |
+| 10 | Prompt promote/rollback | ![Langfuse prompt labels after rollback](evidence/10-prompt-rollback.png) · [dữ liệu](evidence/10-prompt-rollback.md) | 4 trace ID | ảnh UI Langfuse + export đối chiếu |
 | 11 | Dashboard runtime | ![Dashboard overview](evidence/11-dashboard-overview.png) | `/dashboard` | ảnh PNG |
-| 12 | Incident metric | [12-incident-metric.md](evidence/12-incident-metric.md) | P95 3624 ms | tính từ log |
-| 13 | Incident log | [13-incident-log.md](evidence/13-incident-log.md) | `req-a214b648` | trích xuất log |
-| 14 | Incident trace | [14-incident-trace.md](evidence/14-incident-trace.md) | `fe47bc4c…` | export Langfuse API |
+| 12 | Incident metric | ![Incident metric](evidence/12-incident-metric.png) · [dữ liệu](evidence/12-incident-metric.md) | P95 3624 ms | ảnh bảng số liệu từ log challenge |
+| 13 | Incident log | ![Incident log](evidence/13-incident-log.png) · [dữ liệu](evidence/13-incident-log.md) | `req-a214b648` | ảnh từ `data/logs.jsonl` |
+| 14 | Incident trace | ![Langfuse incident trace](evidence/14-incident-trace.png) · [dữ liệu](evidence/14-incident-trace.md) | `fe47bc4c…` | ảnh UI Langfuse + export đối chiếu |
 | — | Baseline log validator | [baseline-log-validator.txt](evidence/baseline-log-validator.txt) | 30/100 | output lệnh |
 
-Các evidence `04`–`10` và `12`–`14` là dữ liệu trích xuất từ runtime (log) và Langfuse Public API, đã trình bày lại bằng Markdown để dễ đối chiếu. Theo `docs/SUBMISSION.md`, các mục này vẫn cần **ảnh chụp màn hình runtime/UI**; hiện mới có ảnh `11-dashboard-overview.png`. Sau khi chụp, đặt ảnh PNG cùng số thứ tự (ví dụ `06-trace-list.png`) và thêm vào bảng trên.
+Ảnh `06`–`10` và `14` được chụp từ UI project Langfuse cá nhân `day13-k4-l3a-2A202602372`; các file Markdown đi kèm là dữ liệu export để đối chiếu. Ảnh `04`, `05`, `12` và `13` được kết xuất từ log/runtime data của repo.
 
 ## 3. Kết quả kỹ thuật
 
@@ -120,11 +120,12 @@ Lưu ý: request đầu (`req-a214b648`) chậm hơn khoảng 1 s so với 4 req
 - [x] Tests, log validator và dashboard validator chạy lại trên source cuối ngày 2026-10-04: 57 passed, 100/100, 6/6.
 - [x] Structured log, PII redaction có evidence.
 - [x] ≥10 traces trong project cá nhân, waterfall, metadata, prompt v1/v2, promote và rollback.
-- [ ] Ảnh chụp UI Langfuse cho evidence `06`–`10` và `14`; các bản export text hiện có không thay thế ảnh theo `docs/SUBMISSION.md`.
-- [ ] Ảnh runtime structured log, PII redaction và incident log/metric (`04`, `05`, `12`, `13`); các file text hiện tại chỉ là dữ liệu trích xuất.
+- [x] Ảnh chụp UI Langfuse cho evidence `06`–`10` và `14`; export text đi kèm để đối chiếu. Project cá nhân hiển thị đúng tên `day13-k4-l3a-2A202602372`.
+- [x] Ảnh structured log, PII redaction và incident log/metric (`04`, `05`, `12`, `13`) từ dữ liệu runtime; Markdown đi kèm là bản trích xuất đối chiếu.
 - [x] Dashboard runtime có dữ liệu; SLO/error budget; 3 alert + runbook.
 - [x] Incident metric → log → trace cùng `correlation_id`.
 - [x] Đủ 14 file evidence được đánh số `01`–`14`. Quét secret toàn repo ngày 2026-10-04 chỉ thấy placeholder `sk-lf-...` trong docs. `.env`, `.venv/`, `.venv312/`, `data/logs.jsonl` và `config/challenge.json` đều bị gitignore và không được track.
 - [x] Mục 1 đã dùng tên repo chuẩn `K4-L3-DAY13-TranThiNhuY-2A202602372-Monitoring-LLMOps`.
-- [ ] Đổi tên repo trên GitHub cho khớp URL ở mục 1, commit, push và điền commit SHA.
+- [ ] Commit các thay đổi cuối, sau đó điền SHA thực tế vào mục 1.
+- [ ] Push code lên GitHub, đổi tên repo nếu cần để khớp URL ở mục 1.
 - [ ] Nộp URL và SHA trên VLearn.
