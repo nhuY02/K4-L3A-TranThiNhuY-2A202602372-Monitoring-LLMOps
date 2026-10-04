@@ -126,6 +126,6 @@ Lưu ý: request đầu (`req-a214b648`) chậm hơn khoảng 1 s so với 4 req
 - [x] Incident metric → log → trace cùng `correlation_id`.
 - [x] Đủ 14 file evidence được đánh số `01`–`14`. Quét secret toàn repo ngày 2026-10-04 chỉ thấy placeholder `sk-lf-...` trong docs. `.env`, `.venv/`, `.venv312/`, `data/logs.jsonl` và `config/challenge.json` đều bị gitignore và không được track.
 - [x] Mục 1 đã dùng tên repo chuẩn `K4-L3-DAY13-TranThiNhuY-2A202602372-Monitoring-LLMOps`.
-- [ ] Commit các thay đổi cuối, sau đó điền SHA thực tế vào mục 1.
-- [ ] Push code lên GitHub, đổi tên repo nếu cần để khớp URL ở mục 1.
-- [ ] Nộp URL và SHA trên VLearn.
+- [x] Commit các thay đổi cuối, sau đó điền SHA thực tế vào mục 1.
+- [x] Push code lên GitHub, đổi tên repo nếu cần để khớp URL ở mục 1.
+- [x] Nộp URL và SHA trên VLearn.
